@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 
 // Interface for a single streamer's data
-interface StreamerData {
+interface PlayerDataType {
   userID: string;
   displayName: string;
   picture: string;
   score: number;
 }
 
-  const initialData: StreamerData[] = [
+  const playerData: PlayerDataType[] = [
     {
       userID: "u-1",
       displayName: "Jone",
@@ -74,7 +74,7 @@ interface StreamerData {
 
 const LiveScoresLeaderboard: React.FC = () => {
   const streamerRowRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [streamers, setStreamers] = useState<StreamerData[]>(initialData);
+  const [streamers, setStreamers] = useState<PlayerDataType[]>(playerData);
 
   const updateScoresRandomly = () => {
     const updatedStreamers = streamers.map((streamer) => ({
@@ -105,23 +105,23 @@ const LiveScoresLeaderboard: React.FC = () => {
   const sortedStreamers = [...streamers].sort((a, b) => b.score - a.score);
 
   return (
-    <LeaderboardContainer>
+    <WrapperContainer>
       {sortedStreamers.map((streamer, index) => (
-        <StreamerRow
+        <PlayersRow
           key={streamer.userID}
           ref={(ref) => (streamerRowRefs.current[index] = ref)}
         >
           <Position index={index+1} >{index + 1}</Position>
           <DisplayPic></DisplayPic>
-          <DisplayName>{streamer.displayName}</DisplayName>
+          <Name>{streamer.displayName}</Name>
           <Score>{streamer.score} pt</Score>
-        </StreamerRow>
+        </PlayersRow>
       ))}
-    </LeaderboardContainer>
+    </WrapperContainer>
   );
 };
 
-const LeaderboardContainer = styled.div`
+const WrapperContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,7 +131,7 @@ const LeaderboardContainer = styled.div`
   
 `;
 
-const StreamerRow = styled.div`
+const PlayersRow = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -158,7 +158,7 @@ const Position = styled.span`
       ? "green"
       : index === 3
       ? "orange"
-      : "blue"};
+      : "blueviolet"};
 `;
 
 const DisplayPic = styled.span`
@@ -171,7 +171,7 @@ const DisplayPic = styled.span`
   margin-top: -5px;
 `;
 
-const DisplayName = styled.span`
+const Name = styled.span`
   flex: 1;
   color: black;
 `;
